@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Safe Zone field guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#ECF0E9;--surface:#F7F9F5;--ink:#15231B;--muted:#4E5F54;--line:#C6D1C5;--zone:#1E7B4F;--zone-soft:#D3E8DA;--danger:#B3302A;--amber:#9A5C08;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1713;--surface:#15221B;--ink:#E4EDE6;--muted:#93A69A;--line:#26382E;--zone:#4FC585;--zone-soft:#173325;--danger:#F0776C;--amber:#E0A04A}}
+:root[data-theme="dark"]{--bg:#0E1713;--surface:#15221B;--ink:#E4EDE6;--muted:#93A69A;--line:#26382E;--zone:#4FC585;--zone-soft:#173325;--danger:#F0776C;--amber:#E0A04A}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 56px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 Archivo,system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--zone)}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);z-index:5}
+.nav .wrap{display:flex;gap:22px;overflow-x:auto;white-space:nowrap;padding-top:14px;padding-bottom:14px;font-weight:600;font-size:.95rem}
+.nav a{color:var(--muted);text-decoration:none}.nav a:hover{color:var(--ink)}
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:center;padding:48px 0 16px}
+h1,h2{font-stretch:75%;font-weight:800;margin:0;line-height:.98;letter-spacing:-.01em}
+h1{font-size:clamp(3rem,9vw,5.6rem)}
+h2{font-size:clamp(2rem,5vw,2.8rem);margin-bottom:10px}
+h3{margin:0;font-size:1.15rem;font-weight:700}
+.lede{font-size:1.15rem;max-width:46ch;margin:18px 0 12px}
+.facts{margin:0;padding:0;list-style:none;color:var(--muted);display:grid;gap:4px;font-size:.98rem}
+.facts b{color:var(--ink)}
+.ring{width:100%;max-width:340px;justify-self:center}
+.ring .zone{fill:var(--zone-soft);fill-opacity:.62;stroke:var(--zone);stroke-width:3;transform-origin:center;transform-box:fill-box;animation:shrink 7s ease-in-out 1s forwards}
+.ring .old{fill:none;stroke:var(--danger);stroke-width:2;stroke-dasharray:6 7}
+@keyframes shrink{to{transform:scale(.72)}}
+@media (prefers-reduced-motion:reduce){.ring .zone{animation:none}}
+section{padding:56px 0 8px}
+.intro{color:var(--muted);max-width:62ch;margin:0 0 22px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(285px,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--c,var(--line));border-radius:8px;padding:16px 16px 14px}
+.t1{--c:var(--zone)}.t2{--c:#6FAF8A}.t3{--c:var(--amber)}.t4{--c:var(--line)}
+.hd{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.tag{font-size:.8rem;color:var(--muted);font-weight:600}
+.st{margin:2px 0 10px;color:var(--muted);font-size:.9rem}
+.card p{margin:0 0 8px;font-size:.96rem}
+.card p:last-child{margin:0;color:var(--muted)}
+.card strong{font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 6px}
+.chips button{font:600 .9rem Archivo,system-ui,sans-serif;color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:999px;padding:7px 14px;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--zone);border-color:var(--zone);color:var(--bg)}
+.chips button:focus-visible,.nav a:focus-visible{outline:2px solid var(--zone);outline-offset:2px}
+.item{display:grid;grid-template-columns:190px 1fr;gap:4px 18px;padding:12px 0;border-bottom:1px solid var(--line)}
+.item b{font-weight:700}
+.rar{font-size:.8rem;color:var(--muted);margin-left:8px;font-weight:500}
+.item span.tx{color:var(--ink)}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:.93rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:700;color:var(--muted)}tr:last-child td{border-bottom:0}
+.plan{counter-reset:s;list-style:none;margin:0;padding:0;display:grid;gap:14px;max-width:760px}
+.plan li{counter-increment:s;display:grid;grid-template-columns:38px 1fr;gap:14px}
+.plan li:before{content:counter(s);width:34px;height:34px;border-radius:50%;background:var(--zone);color:var(--bg);display:grid;place-items:center;font-weight:800}
+.plan b{display:block;font-size:1.05rem}
+.plan span{color:var(--muted)}
+.note{margin:56px 0 40px;padding:16px 18px;border-left:5px solid var(--amber);background:var(--surface);border-radius:0 8px 8px 0;font-size:.95rem;color:var(--muted)}
+.note b{color:var(--ink)}
+footer{padding:0 0 40px;color:var(--muted);font-size:.9rem}
+.go{margin-top:10px;font:600 .85rem Archivo,system-ui,sans-serif;color:var(--zone);background:transparent;border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer}
+.go:focus-visible{outline:2px solid var(--zone);outline-offset:2px}
+.card p.ct{color:var(--muted);margin:0}
+#pplan h3{font-size:1.4rem;margin-top:12px}
+.best{margin:6px 0 12px;color:var(--muted);max-width:62ch}
+.ok b{color:var(--zone)}.bad b{color:var(--danger)}
+.sg{font:600 .82rem Archivo,system-ui,sans-serif;color:var(--zone);background:transparent;border:1px solid var(--line);border-radius:999px;padding:3px 11px;cursor:pointer;margin:0 6px 10px 0}
+.sg:focus-visible{outline:2px solid var(--zone);outline-offset:2px}
+.sub{margin:36px 0 8px;font-size:1.25rem}
+.ic{width:30px;height:30px;object-fit:contain;vertical-align:middle;margin-right:8px;border-radius:6px}
+#pplan h3 .ic{width:40px;height:40px}
+#tplan{margin-top:14px}
+.rl{margin:10px 0 0;font-size:.9rem}.rl summary{cursor:pointer;font-weight:600;color:var(--zone)}.rl ul{margin:8px 0 0;padding-left:18px}.rl li{margin:5px 0}
+.nav a.tab{color:var(--ink);font-weight:800}
+.sn{display:flex;align-items:center;gap:12px;min-width:0}
+.sn .tag{display:block}
+.av{position:relative;flex:none;width:42px;height:42px;border-radius:50%;background:hsl(var(--h) 42% 36%);color:#fff;display:grid;place-items:center;font-weight:800;font-size:1.1rem;overflow:hidden}
+.av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.live .av{box-shadow:0 0 0 3px var(--danger)}
+.sbtn[disabled]{opacity:.6;cursor:default}
+.srow{display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap;padding:12px 0;border-bottom:1px solid var(--line)}
+.srow a{color:var(--ink);text-decoration:none}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px;background:var(--line)}
+.live .dot{background:var(--danger)}.live .tag{color:var(--danger);font-weight:700}
+.sbtn{font:600 .85rem Archivo,system-ui,sans-serif;color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer}
+.sbtn.w{background:var(--zone);border-color:var(--zone);color:var(--bg)}
+.sbtn:focus-visible{outline:2px solid var(--zone);outline-offset:2px}
+a.sbtn{display:inline-block;text-decoration:none}
+dialog{width:min(1180px,96vw);max-width:none;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);padding:0;overflow:hidden}
+dialog::backdrop{background:rgba(5,12,8,.7)}
+.dh{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--line)}
+.dh b{font-size:1.1rem}.da{display:flex;gap:8px;flex-wrap:wrap}
+.db{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);background:#000}
+.db iframe{width:100%;border:0;display:block}
+.db .pl iframe{aspect-ratio:16/9}.db .ch{min-height:360px}.db .ch iframe{height:100%;background:var(--surface)}
+@media (max-width:720px){.db{grid-template-columns:1fr}.db .ch{height:380px}}
+.rules{max-width:70ch;padding-left:20px;margin:0}.rules li{margin:7px 0}
+@media (max-width:720px){.hero{grid-template-columns:1fr;padding-top:32px}.item{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="wrap">
+<a href="#streamers" class="tab">Streamers going</a><a href="#top">Overview</a><a href="#sigils">Sigils</a><a href="#sigplans">Sigil game plans</a><a href="#team">Alliances</a><a href="#items">Items</a><a href="#threats">Threats</a><a href="#builds">Builds</a><a href="#plan">General plan</a>
+</div></nav>
+
+<main class="wrap" id="top">
+<div class="hero">
+<div>
+<h1>Stay in the circle.</h1>
+<p class="lede">A field guide to Ice Poseidon's Safe Zone event in Austin, Texas: stay in the safe zone for a chance to win $50,000, starting October 17.</p>
+<ul class="facts">
+<li><b>100 HP</b> to start, and you carry <b>3 items</b> that don't stack.</li>
+<li>Leave the zone and after <b>5 s</b> you lose <b>1 HP every 2 s</b>.</li>
+<li>Most actions need you within <b>5 m</b> of the target.</li>
+</ul>
+</div>
+<svg class="ring" viewBox="0 0 320 320" role="img" aria-label="A safe zone circle shrinking inside the old zone boundary">
+<defs><clipPath id="mc"><rect width="320" height="320" rx="16"/></clipPath></defs>
+<rect width="320" height="320" rx="16" fill="var(--zone-soft)"/>
+<image href="https://files.iceposeidon.com/events/safe-zone/safezone-banner.png" width="320" height="320" preserveAspectRatio="xMidYMid slice" clip-path="url(#mc)"/>
+<circle class="old" cx="160" cy="160" r="150"/>
+<circle class="zone" cx="160" cy="160" r="112"/>
+</svg>
+</div>
+
+<section id="sigils">
+<h2>Sigils</h2>
+<p class="intro">You pick one after the event starts and the choice is final. Tiers are my read of the rules, not tested in play.</p>
+<div class="grid" id="sig"></div>
+</section>
+
+<section id="sigplans">
+<h2>Sigil game plans</h2>
+<p class="intro">Your sigil is final, so compare them here. Each plan covers the opening, midgame and endgame, then the best and worst outcomes.</p>
+<div class="chips" id="pchips"></div>
+<div id="pplan"></div>
+</section>
+
+<section id="team">
+<h2>Alliance planner</h2>
+<p class="intro">The game has no team system. Faith is the only real bond, and every other alliance is a handshake agreement that anyone can break. Choose how many of you are allying at the start to see which sigils fit together. Tap a sigil to open its game plan.</p>
+<div class="chips" id="tchips"></div>
+<div id="tplan"></div>
+<h3 class="sub">What each sigil does in an alliance</h3>
+<div id="troles"></div>
+<h3 class="sub">Alliance rules to know</h3>
+<ul class="rules">
+<li>Nothing protects an ally from you or you from them. Only a Faith bond has game rules behind it, and even that allows betrayal.</li>
+<li>Faith bonds are strictly one-to-one, so Faith only works in pairs. A third Faith player has nobody to bond with.</li>
+<li>Per the wiki, Necromancers are immune to every zombie, including each other's, so an all-Necromancer alliance can't be drained by its own swarm. An ally on any other sigil can be, so they must stay 5 m or more from your zombies, carry Zombie repellent, or be shielded.</li>
+<li>Splash damage doesn't check loyalties. Your C4, claymores and unsafe circles hit allies too, and a dying Protection player damages everyone within 10 m.</li>
+<li>Greed can steal from anyone within 5 m, allies included, and Death can rob any grave, including an ally's.</li>
+<li>Only a Healing player can revive others, though anyone can revive a Healing player. They must be within 5 m of the grave inside 10 min. Missiles hit 25 m and nukes 100 m, but they land 3 min and 5 min after launch, so spread out when one is incoming.</li>
+<li>A Death sigil player robbing a grave makes that player unrevivable, so never rob a teammate. Enemy Death players can do the same to yours.</li>
+<li>Endurance players can't trade or receive items, but teammates can claim their care packages.</li>
+<li>The site doesn't say how the prize works for a team. Agree on what happens in the final before the event starts.</li>
+<li>Bigger than 5? Use pairs of Faith, one or two Healing players, and a looter or two. Avoid mixing Necromancy with non-Necromancers.</li>
+</ul>
+</section>
+
+<section id="items">
+<h2>Items</h2>
+<p class="intro">Found in chests, care packages and crates, or traded. Filter by what you need the item to do.</p>
+<div class="chips" id="chips"></div>
+<div id="itm"></div>
+</section>
+
+<section id="threats">
+<h2>Threats</h2>
+<p class="intro">A Shield, a Safety bubble and the admin Reality Shield block every kind of damage. Body armor absorbs 15 HP of anything. This table lists what else helps.</p>
+<div class="tw"><table>
+<thead><tr><th>Source</th><th>What it does</th><th>Also stopped by</th></tr></thead>
+<tbody>
+<tr><td>Outside the zone</td><td>1 HP every 2 s after a 5 s grace period (30 HP per minute)</td><td>Guardian angel, Death Ward; Hazmat suit halves it</td></tr>
+<tr><td>Unsafe circle</td><td>Same as zone damage, with no grace period</td><td>Guardian angel, Death Ward; Hazmat suit halves it</td></tr>
+<tr><td>Poison</td><td>20 HP over 30 min; a new dose restarts the timer</td><td>Protection sigil, Anti poison, Mirror forcefield</td></tr>
+<tr><td>Drone</td><td>10 HP to a visible target after 30 s, from any distance</td><td>Protection sigil, Mirror forcefield</td></tr>
+<tr><td>Missile (viewers)</td><td>10 HP within 25 m. Lands within 100 m of the aim point after 3 min</td><td>Protection sigil</td></tr>
+<tr><td>C4 and claymore</td><td>C4 does 20 HP within 10 m, claymore 10 HP within 5 m. Both hit their owner too</td><td>Protection sigil, Mirror forcefield</td></tr>
+<tr><td>Zombies</td><td>1 HP per 10 s of contact, up to 15 HP per zombie. A horde is 50 zombies for 20 min</td><td>Necromancy sigil, Zombie repellent. Invisibility stops the chase, but a zombie already beside you still drains you</td></tr>
+<tr><td>Tear gas</td><td>2 HP every 10 s inside a 25 m cloud for 10 min</td><td>Nothing beyond the universal blockers</td></tr>
+<tr><td>Nuke (admins)</td><td>20 HP within 100 m, lands 5 min after launch</td><td>Nothing beyond the universal blockers. No sigil is immune</td></tr>
+<tr><td>God's Fruit (admins)</td><td>Heals 20 HP and cures poison within 100 m, even at full HP</td><td>Not a threat. Run toward it</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="builds">
+<h2>Builds</h2>
+<p class="intro">Twenty-seven builds, three for each sigil. You carry 3 items unless you pick Endurance, and Piety keeps all potions in one slot.</p>
+<h3 class="sub">Endurance <span class="tag">Top pick</span></h3>
+<div class="grid">
+<article class="card t1"><h3>Fortress</h3><p class="st">Endurance</p><p><strong>Loadout:</strong> Hazmat suit, Body armor and Zombie repellent stay on you. Safety bubble, Shield and Guardian angel are your panic buttons, with Mirror forcefield and Anti poison for attackers.</p><p><strong>Play:</strong> Claim every 2 h care package before anyone else. Spend Guardian angel on zone crossings and keep the Shield for nukes.</p><p class="ct"><strong>Weak to:</strong> You can't trade, and a Greed player within 5 m can steal your bubble.</p></article>
+<article class="card t1"><h3>Counter-puncher</h3><p class="st">Endurance</p><p><strong>Loadout:</strong> Two or three Mirror forcefields, Anti poison, Shield, Hazmat suit and Body armor.</p><p><strong>Play:</strong> Each mirror is used up by the next dart, drone, C4, claymore, knife, machete or fake chest, which goes back at the attacker. Ten slots let you hold several at once.</p><p class="ct"><strong>Weak to:</strong> Mirrors don't cover the zone, zombies, missiles, tear gas or nukes.</p></article>
+<article class="card t1"><h3>Drop ninja</h3><p class="st">Endurance</p><p><strong>Loadout:</strong> Invisibility cloak, Smoke bomb, Hazmat suit, Body armor and Anti poison.</p><p><strong>Play:</strong> Your 2 h drop is visible to everyone on the map. Smoke bomb blacks out contestants within 50 m for 20 min, and the cloak hides you for 1 h, so you can claim the package unseen.</p><p class="ct"><strong>Weak to:</strong> Players can still see you in person, and the cloak doesn't stop damage.</p></article>
+</div>
+<h3 class="sub">Necromancy <span class="tag">Top pick</span></h3>
+<div class="grid">
+<article class="card t1"><h3>Gravekeeper</h3><p class="st">Necromancy</p><p><strong>Loadout:</strong> Hazmat suit and Body armor, plus a Shield for nukes.</p><p><strong>Play:</strong> Save your summons (3 per 6 h) until people are within reach. Every death gives you a zombie, and deaths within 50 m also add a guard zombie on the grave.</p><p class="ct"><strong>Weak to:</strong> Zombie repellent, Safety bubbles and anyone who walks away. Nothing here stops darts, drones or C4.</p></article>
+<article class="card t1"><h3>Fog of war</h3><p class="st">Necromancy</p><p><strong>Loadout:</strong> Smoke bomb, Hazmat suit and Shield.</p><p><strong>Play:</strong> A Smoke bomb blacks out everyone within 50 m for 20 min. They can't see zombies on the map, so yours close in unseen.</p><p class="ct"><strong>Weak to:</strong> One-use item, zombies are slow, and blacked-out players can still see you in person.</p></article>
+<article class="card t1"><h3>Zombie handler</h3><p class="st">Necromancy</p><p><strong>Loadout:</strong> Drone, Poison dart and Hazmat suit.</p><p><strong>Play:</strong> Your zombies pin people down. Use the Drone (10 HP after 30 s, any distance) and darts (within 5 m, 20 HP over 30 min) on the ones who walk away.</p><p class="ct"><strong>Weak to:</strong> Protection players and Mirror forcefields shrug off both items, and they're single use.</p></article>
+</div>
+<h3 class="sub">Piety <span class="tag">Strong</span></h3>
+<div class="grid">
+<article class="card t2"><h3>Walking pharmacy</h3><p class="st">Piety</p><p><strong>Loadout:</strong> A stack of up to 6 potions in one slot, then Hazmat suit and Body armor.</p><p><strong>Play:</strong> Open every chest, since each is a potion. Heal after taking damage because potions can't be used at full HP. A Gigantic heals about 46 HP with your bonus.</p><p class="ct"><strong>Weak to:</strong> Chests only give potions, so armor has to come from care packages and trades. Fake chests still trap you.</p></article>
+<article class="card t2"><h3>Bunker</h3><p class="st">Piety</p><p><strong>Loadout:</strong> Safety bubble, a potion stack and Hazmat suit.</p><p><strong>Play:</strong> Drop the bubble when you're stranded or need a rest: 10 m, 2 h, immune to all damage and zombies. Top up with potions inside.</p><p class="ct"><strong>Weak to:</strong> It's stationary and visible to everyone, and anyone who steps inside is protected too.</p></article>
+<article class="card t2"><h3>Quartermaster</h3><p class="st">Piety</p><p><strong>Loadout:</strong> A potion stack, Hazmat suit and Body armor.</p><p><strong>Play:</strong> Open every chest and trade spare potions to allies (a trade holds up to 10 items, within 5 m). Bonded Faith partners can trade at any distance.</p><p class="ct"><strong>Weak to:</strong> Potions you trade take normal slots and lose your 15% bonus, and nothing binds an ally to you.</p></article>
+</div>
+<h3 class="sub">Greed <span class="tag">Strong</span></h3>
+<div class="grid">
+<article class="card t2"><h3>Pickpocket</h3><p class="st">Greed</p><p><strong>Loadout:</strong> Hazmat suit, with two slots kept open for what you loot or steal.</p><p><strong>Play:</strong> Read inventories on the map and steal a Safety bubble, Shield or other best item from within 5 m (30 min cooldown). Your 2x chest reach adds a 25% chance of a free 20 min Shield per real chest.</p><p class="ct"><strong>Weak to:</strong> 90 HP, and getting within 5 m exposes you to darts, knives and claymores.</p></article>
+<article class="card t2"><h3>Blackout raider</h3><p class="st">Greed</p><p><strong>Loadout:</strong> EMP, Drone and Hazmat suit.</p><p><strong>Play:</strong> The EMP blinds every other contestant for 1 h: no map, no contestant details, no trading. You still see everyone, so line up Drone strikes (10 HP after 30 s) and walk up on a mark to steal.</p><p class="ct"><strong>Weak to:</strong> One legendary item, only 90 HP, and players can still see you in person.</p></article>
+<article class="card t2"><h3>Chest farmer</h3><p class="st">Greed</p><p><strong>Loadout:</strong> Hazmat suit, Body armor and Bandage.</p><p><strong>Play:</strong> Run a loop of chests with your 2x reach. Each real chest has a 25% chance of a free 20 min Shield and adds a blood token to your money bag.</p><p class="ct"><strong>Weak to:</strong> It depends on how many chests there are, and fake chests still cost you 5 HP.</p></article>
+</div>
+<h3 class="sub">Faith <span class="tag">Situational</span></h3>
+<div class="grid">
+<article class="card t3"><h3>Bonded bastion</h3><p class="st">Faith</p><p><strong>Loadout:</strong> Hazmat suit, Body armor and Bandage on each of you.</p><p><strong>Play:</strong> Stay within 10 m so damage is halved and split, with each partner's own armor covering their half. Trade items at any distance.</p><p class="ct"><strong>Weak to:</strong> One death kills both, and either partner can betray the other.</p></article>
+<article class="card t3"><h3>Kingmaker</h3><p class="st">Faith</p><p><strong>Loadout:</strong> Guardian angel, Bandage and Hazmat suit.</p><p><strong>Play:</strong> Stay within 10 m so damage is halved and split. If your partner is stranded outside every safe zone while you're inside one, Sacrifice gives them all your HP and eliminates you.</p><p class="ct"><strong>Weak to:</strong> You're eliminated, and the bond is broken. Agree on the prize deal first.</p></article>
+<article class="card t3"><h3>Double-cross</h3><p class="st">Faith</p><p><strong>Loadout:</strong> Body armor, Bandage and Hazmat suit.</p><p><strong>Play:</strong> Bond for the half-damage, then betray from any distance when you're hurt and they're healthy. You take 30% of their current HP, and nothing can block it.</p><p class="ct"><strong>Weak to:</strong> The bond breaks forever for both of you, and your partner may be planning the same.</p></article>
+</div>
+<h3 class="sub">Death <span class="tag">Situational</span></h3>
+<div class="grid">
+<article class="card t3"><h3>Vulture</h3><p class="st">Death</p><p><strong>Loadout:</strong> Hazmat suit, Body armor and a Bandage.</p><p><strong>Play:</strong> Save Death Ward for a zone crossing. Stay within 50 m of fights, since each death heals you 1 HP per contestant eliminated, and rob graves for 5% max HP.</p><p class="ct"><strong>Weak to:</strong> Quiet games give you no healing, and the heal caps at 60% max HP once 20% or fewer remain. Avoid graves with Necromancer guard zombies.</p></article>
+<article class="card t3"><h3>Border runner</h3><p class="st">Death</p><p><strong>Loadout:</strong> Guardian angel, Hazmat suit and Shield.</p><p><strong>Play:</strong> Chain Death Ward (first hit blocked, then 2 min of immunity) with Guardian angel (30 min) to cross open ground. Hazmat halves what's left.</p><p class="ct"><strong>Weak to:</strong> Death Ward has a 2 h cooldown, and the Shield is your only answer to a nuke.</p></article>
+<article class="card t3"><h3>Grave robber</h3><p class="st">Death</p><p><strong>Loadout:</strong> Anti poison, Hazmat suit and Bandage.</p><p><strong>Play:</strong> Rob every grave you reach for 5% max HP, which also makes that player unrevivable. Each death within 50 m heals you 1 HP per contestant eliminated so far.</p><p class="ct"><strong>Weak to:</strong> Fake gravestones look identical and poison you on a loot or rob attempt, and Necromancer guard zombies drain 2 HP per 5 s near graves.</p></article>
+</div>
+<h3 class="sub">Protection <span class="tag">Situational</span></h3>
+<div class="grid">
+<article class="card t3"><h3>Ghost</h3><p class="st">Protection</p><p><strong>Loadout:</strong> Invisibility cloak, Drone and Hazmat suit.</p><p><strong>Play:</strong> For 1 h nobody can target you with darts, knives, machetes or drones, and you can still attack. Your Drone hits any visible contestant from any distance for 10 HP, and you're already immune to poison, missiles, C4 and claymores.</p><p class="ct"><strong>Weak to:</strong> The zone, nukes and a zombie already next to you still hurt, and potions heal you 50% less.</p></article>
+<article class="card t3"><h3>Demolitions</h3><p class="st">Protection</p><p><strong>Loadout:</strong> C4, Claymore and Hazmat suit.</p><p><strong>Play:</strong> Lay the visible Claymore on a chokepoint and the hidden C4 where people gather (20 HP within 10 m). You're immune to both as a Protection player.</p><p class="ct"><strong>Weak to:</strong> The wiki doesn't say whether that covers your own blasts. C4 is destroyed if you die, and your Retribution hits nearby allies.</p></article>
+<article class="card t3"><h3>Last stand</h3><p class="st">Protection</p><p><strong>Loadout:</strong> Body armor, Bandage and Shield.</p><p><strong>Play:</strong> Potions heal you 50% less, so lean on Bandages (10 HP over 2 min, lasting 1.1x as long) and armor. If you're cornered, Retribution hits everyone within 10 m for 10 HP when you die.</p><p class="ct"><strong>Weak to:</strong> The zone, nukes, tear gas, zombies and knives still hurt, and Retribution hits nearby allies too.</p></article>
+</div>
+<h3 class="sub">Healing <span class="tag">Situational</span></h3>
+<div class="grid">
+<article class="card t3"><h3>Lifeline</h3><p class="st">Healing</p><p><strong>Loadout:</strong> Bandage, Anti poison and Hazmat suit.</p><p><strong>Play:</strong> Be the person others want nearby: heal 1 HP and cure poison every 30 min, and revive anyone up to 10 times. Stay within 5 m of an ally so you can be revived twice yourself.</p><p class="ct"><strong>Weak to:</strong> No strong tools of your own, and a Death player robbing your grave ends your revives.</p></article>
+<article class="card t3"><h3>Aid station</h3><p class="st">Healing</p><p><strong>Loadout:</strong> Safety bubble, Bandage and Hazmat suit.</p><p><strong>Play:</strong> Plant the bubble where your group needs a rest. Everyone inside is immune to all damage and zombies for 2 h, and you top people up.</p><p class="ct"><strong>Weak to:</strong> It's stationary and visible to everyone, and enemies who step inside are protected too.</p></article>
+<article class="card t3"><h3>Second chance</h3><p class="st">Healing</p><p><strong>Loadout:</strong> Shield, Bandage and Hazmat suit.</p><p><strong>Play:</strong> Any living contestant within 5 m of your grave can revive you up to 2 times inside 10 min, and you return with your leftover grave items. Pop the Shield once you're back.</p><p class="ct"><strong>Weak to:</strong> You return with only 5 HP, the reviver pays 5 HP, and a Death player robbing your grave ends it.</p></article>
+</div>
+<h3 class="sub">Trolling <span class="tag">Just for fun</span></h3>
+<div class="grid">
+<article class="card t4"><h3>Trapper</h3><p class="st">Trolling</p><p><strong>Loadout:</strong> Hazmat suit, Body armor and a Mirror forcefield.</p><p><strong>Play:</strong> Seed up to 5 fake chests a day near real loot. Each claim costs the victim 5 HP and a 1 h chest lockout, and heals you 5. Save the unsafe circle for chokepoints and stay out of it.</p><p class="ct"><strong>Weak to:</strong> Mirror forcefields send fake chests back at you, and sigils show on the map unless anonymous mode is on.</p></article>
+<article class="card t4"><h3>Grave bait</h3><p class="st">Trolling</p><p><strong>Loadout:</strong> Mirror forcefield, Bandage and Hazmat suit.</p><p><strong>Play:</strong> Place your daily fake gravestone where fights happen. It copies a real grave, and every contestant who tries to loot or rob it, Death players included, is poisoned once for 20 HP over 30 min.</p><p class="ct"><strong>Weak to:</strong> Poison is slow, Protection and Anti poison stop it, and a Mirror forcefield sends it back.</p></article>
+<article class="card t4"><h3>Squeeze play</h3><p class="st">Trolling</p><p><strong>Loadout:</strong> Guardian angel, Hazmat suit and Body armor.</p><p><strong>Play:</strong> Put the 50 m unsafe circle over a camped spot (not on a person). Everyone inside loses 1 HP every 2 s with no grace period. Guardian angel and Hazmat let you hold the ground yourself.</p><p class="ct"><strong>Weak to:</strong> Shield, Safety bubble, Guardian angel and Death Ward block it, it lasts 20 min with a 2 h cooldown, and people can just walk out.</p></article>
+</div>
+</section>
+
+<section id="plan">
+<h2>General game plan</h2>
+<p class="intro">Combat matters less than staying in the circle and keeping your HP up for a long event.</p>
+<ol class="plan">
+<li><div><b>Prep</b><span>Your phone is the whole interface, and the nearby list needs live location. Bring a battery bank, good shoes and water. If you're teaming up, agree on sigils beforehand.</span></div></li>
+<li><div><b>Early game</b><span>Don't fight. Loot chests and care packages while everyone is spread out, and fill slots with always-on items first. Sigil, HP and inventory are visible on the map unless anonymous mode is on, so note who is Trolling, Greed or Necromancy.</span></div></li>
+<li><div><b>Positioning</b><span>Stay toward the middle of the zone, since it can shrink, speed up or split. Keep 5 m or more from anyone holding darts, knives or C4, and from Greed players. Drones work at any distance but give 30 s of warning.</span></div></li>
+<li><div><b>Traps</b><span>Fake chests cost 5 HP and lock you out of chests for an hour. Fake gravestones poison you. Both look real, so be careful around anything a Trolling player just passed, and near graves with a Necromancer close by.</span></div></li>
+<li><div><b>Late game</b><span>Save the Safety bubble and Shield for the final collapse. No sigil is immune to nukes, but they land 5 min after launch, so you can walk out of the 100 m blast. Keep HP above about 25 and a Shield in reserve. Death and Necromancy players get stronger as people fall, so avoid fighting near them.</span></div></li>
+<li><div><b>Allies</b><span>A Healing player nearby is effectively a revive. Every alliance still ends at the finish.</span></div></li>
+</ol>
+</section>
+
+<div class="note"><b>Unofficial guide, last checked against the wiki on October 7, 2026.</b> Everything here except the October 17 start date comes from the Safe Zone wiki pages at iceposeidon.com/safezone, which say all information is subject to change. The site doesn't state the win condition, player count or event length. I assumed last contestant standing, as in his earlier Hunger Games event. Check his Discord or stream for updates.</div>
+</main>
+<main class="wrap" id="streamers" hidden>
+<section>
+<h2>Streamers going</h2>
+<p class="intro" id="sstatus">Checking who's live...</p>
+<div class="chips"><button type="button" id="srf">Refresh now</button></div>
+<dialog id="dlg" aria-label="Watch stream">
+<div class="dh"><div><b id="dn"></b> <span class="tag" id="ds"></span></div><div class="da"><a class="sbtn" id="dk" target="_blank" rel="noopener">Open on Kick</a><button type="button" class="sbtn" id="dx">Close</button></div></div>
+<div class="db" id="db"></div>
+</dialog>
+<div id="slist"></div>
+</section>
+</main>
+<footer><div class="wrap">Source: <a href="https://iceposeidon.com/safezone">iceposeidon.com/safezone</a></div></footer>
+
+<script>
+const IB="https://files.iceposeidon.com/events/safe-zone/icons/";
+const IC={Endurance:"sigil-of-endurance.png",Necromancy:"sigil-of-necromancy.png",Piety:"sigil-of-piety.png",Greed:"sigil-of-greed.png",Faith:"sigil-of-faith.png",Death:"sigil-of-death.png",Protection:"sigil-of-protection.png",Healing:"sigill-of-healing.png",Trolling:"sigil-of-trolling.png",
+"Hazmat suit":"item-hazmat.png","Body armor":"item-body-armor.png","Zombie repellent":"item-zombie-repellent.png","Safety bubble":"item-safety-bubble.png","Shield":"item-shield.png","Guardian angel":"item-guardian-angel.png","Mirror forcefield":"item-mirror-forcefield.png","Anti poison":"item-anti-poison.png","Invisibility cloak":"item-invisibility-cloak.png","EMP":"item-emp.png","Smoke bomb":"item-smoke-bomb.png","Bandage":"item-bandage.png","Drone":"item-drone.png","Poison dart":"item-poison-dart.png","C4":"item-c4.png","Claymore":"item-claymore.png","Huge machete":"item-machete.png","Assassin's knife":"items-assassins-knife.png","Eddie's potion":"item-eddie-potion.png"};
+function ic(n){const f=n==="Health potion"?"https://files.iceposeidon.com/graphics/ice-cartoon-face.png":IC[n]?IB+IC[n]:"";return f?`<img class="ic" src="${f}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`:""}
+const RU={"Endurance": ["10 inventory slots instead of 3.", "Every 2 h a care package falls within 10 m of each Endurance contestant and lands after 30 s. Once it lands, any contestant can claim it.", "It never holds a health potion or drone.", "You can't trade, loot gravestones, drop items or pick up dropped items. You can still destroy items, claim chests and take crates."], "Necromancy": ["Immune to zombies. Zombies never chase or drain you.", "Summon a zombie where you stand, up to 3 times every 6 h.", "When any contestant dies, a zombie of yours appears near you.", "When a contestant dies within 50 m of you, a guard zombie stands on their gravestone for 1 h. It drains 2 HP every 5 s from anyone within 10 m, up to 30 HP per contestant.", "When viewers send a horde, you also get 5 zombies of your own.", "You can have up to 10 zombies at once. Guards don't count. At the limit, new zombies don't appear and a summon is refused.", "Your zombies drain 1 HP every 10 s from contestants within 5 m, up to 15 HP per contestant for each zombie. The HP goes to you."], "Piety": ["Max HP is 10 higher (110).", "Every item chest you claim gives you a random health potion instead of the item inside. A fake chest still springs its trap.", "Health potions heal you 15% more, rounded down.", "All your health potions share one inventory slot, up to 6 potions."], "Greed": ["Max HP is 10 lower (90).", "You can claim chests from 2x as far away.", "Each real chest you claim has a 25% chance to give you a Shield for 20 min.", "Each real chest you claim adds a blood token to your money bag. Fake chests give none.", "Steal: take one item of your choice from a contestant within 5 m. Cooldown 30 min."], "Faith": ["Bond: send a request to any Faith contestant you can see, at any distance. Both must be Faith and not bonded yet. Invisible contestants can't be asked. A request expires after 1 min, and accepting one removes all other requests of both contestants.", "Damage to either partner is split: the one who was hit takes the larger half. Within 10 m of each other, damage is first multiplied by 0.5x.", "Each partner's own protection, like a Shield or Body armor, applies to their own half. Direct HP loss isn't split: betrayal, sacrifice and the cost of a revive.", "Bonded partners can trade at any distance.", "If one partner is eliminated, the other is too. If one is revived, the other comes back too.", "Betray: either partner can do it at any time, from anywhere. You take 30% of your partner's current HP, up to your own max HP.", "Sacrifice: when you're inside a safe zone and your partner is outside every safe zone, you give them all your HP (up to their max) and are eliminated. They aren't.", "After a betrayal or sacrifice, the bond is broken and neither of you can ever bond again."], "Death": ["Rob a gravestone within 5 m to heal 5% of your max HP. Empty gravestones can be robbed too. Each can be robbed once, and a robbed gravestone can never be revived.", "When a contestant dies within 50 m of you, you heal 1 HP for every contestant eliminated so far, them included.", "When 20% or fewer of the contestants are alive, that heal can't take you above 60% of your max HP.", "Death Ward: the first zone hit is blocked and you're immune to zone damage for 2 min. Cooldown 2 h."], "Protection": ["Immune to poison, drones, missiles, C4 and claymores.", "Potions heal you 50% less.", "Bandages last 1.1x as long.", "Retribution: when you die, everyone within 10 m of you takes 10 HP."], "Healing": ["Heal a nearby contestant for 1 HP and cure their poison. Cooldown 30 min.", "While below 30% of your max HP, you regenerate 1 HP every 30 min.", "Any living contestant within 5 m of your gravestone can revive you, up to 2 times.", "You can revive a contestant of any sigil, up to 10 times.", "A revive must happen within 10 min of the death. It costs the reviver 5 HP and brings the contestant back with 5 HP."], "Trolling": ["Fake chest: place up to 5 per day. It looks like a care package. A contestant who claims it takes 5 HP damage and can't claim chests for 1 h. You heal 5 HP.", "Fake gravestone: place up to 1 per day. It copies the gravestone of an eliminated contestant, or of a random living one while nobody is eliminated. Each contestant who tries to loot it is poisoned once.", "Unsafe circle: place a 50 m circle inside a safe zone for 20 min. Anyone inside takes zone damage (1 HP every 2 s, first hit one interval after entering, no grace period). Cooldown 2 h. You can't place it on a contestant. A Shield, Guardian angel, Safety bubble or Death Ward blocks it.", "Each crate or care package from viewers has a 3% chance to land next to a Trolling contestant instead."]};
+function rl(n){return `<details class="rl"><summary>All rules from the wiki</summary><ul>${RU[n].map(x=>`<li>${x}</li>`).join("")}</ul></details>`}
+const tierName={1:"Top pick",2:"Strong",3:"Situational",4:"Just for fun"};
+const S=[
+["Endurance",1,100,10,"10 slots instead of 3, plus a care package within 10 m of you every 2 h. It never holds a potion or drone.","No trading, gravestone looting, dropping or picking up items. Your drops show on everyone's map."],
+["Necromancy",1,100,3,"Immune to zombies. Your zombies drain nearby players and heal you. Every death gives you a zombie, and guard zombies trap gravestones.","Zombies move at 0.4 m/s and last 20 min, so people can walk away. Max 10 at once."],
+["Piety",2,110,3,"Every chest gives a random health potion that heals 15% more. Up to 6 potions share one slot.","Chests never give anything else. Fake chests still spring their trap."],
+["Greed",2,90,3,"2x chest reach, a 25% chance of a free 20 min Shield per real chest, and one steal every 30 min from someone within 5 m.","Low HP, and it depends on how many chests there are."],
+["Faith",3,100,3,"Bond with another Faith player to split damage, halved when you're within 10 m. Bonded partners trade at any distance.","If your partner dies, you die. Betrayal takes 30% of their HP and breaks the bond forever. The 1 HP minimum applies before the split."],
+["Death",3,100,3,"Rob graves for 5% max HP, heal 1 HP per eliminated contestant when someone dies within 50 m, and use a 2 min zone-immunity Death Ward every 2 h.","The heal from nearby deaths can't take you above 60% max HP once 20% or fewer remain, and it only works when others die near you."],
+["Protection",3,100,3,"Immune to poison, drones, missiles, C4 and claymores. Bandages last 1.1x. When you die, everyone within 10 m takes 10 HP.","Potions heal 50% less. No defense against zone, zombies, tear gas or nukes."],
+["Healing",3,100,3,"Heal someone for 1 HP and cure poison (30 min cooldown). Revive anyone up to 10 times, and be revived up to 2 times.","A revive needs someone within 5 m of your grave inside 10 min, costs them 5 HP, and returns you with 5 HP."],
+["Trolling",4,100,3,"5 fake chests and 1 fake gravestone per day, plus a 50 m unsafe circle for 20 min. Each fake chest claimed heals you 5 HP.","Nothing here keeps you in the zone."]
+];
+const R={always:"Always-on",panic:"Panic buttons",counter:"Counters",stealth:"Stealth",heal:"Healing",attack:"Offense",skip:"Skip these"};
+const I=[
+["Hazmat suit","common","always","Halves zone damage while you carry it."],
+["Body armor","uncommon","always","Absorbs up to 15 HP of any damage while carried."],
+["Zombie repellent","epic","always","Zombies ignore you and everyone within 20 m while carried."],
+["Safety bubble","legendary","panic","A 10 m bubble for 2 h. Everyone inside is immune to all damage and zombies."],
+["Shield","rare","panic","Immune to all damage for 20 min."],
+["Guardian angel","uncommon","panic","Immune to zone damage for 30 min."],
+["Mirror forcefield","epic","counter","Reflects the next attack back at the attacker. Several stack. Covers darts, fake gravestones, knives, machetes, drones, C4, claymores and fake chests."],
+["Anti poison","uncommon","counter","Cures poison and makes you immune for 10 min."],
+["Invisibility cloak","rare","stealth","Hidden from contestants, the public map and zombies for 1 h. Nobody can target you with darts, knives or drones. You still take damage."],
+["EMP","legendary","stealth","Blacks out the map for every other contestant for 1 h."],
+["Smoke bomb","epic","stealth","Blacks out the map for contestants within 50 m of you for 20 min."],
+["Bandage","uncommon","heal","Heals 10 HP over 2 min. Taking damage doesn't stop it."],
+["Health potion","common","heal","Small 5 HP, Medium 10, Large 20, Gigantic 40. Can't be used at full HP."],
+["Drone","uncommon","attack","Hits any contestant you can see for 10 HP after 30 s. The target gets a warning."],
+["Poison dart","common","attack","Poisons someone within 5 m for 20 HP over 30 min."],
+["C4","rare","attack","Placed hidden, detonated whenever you like. 20 HP within 10 m, and you're hit if you stand in the blast. It's destroyed if you die."],
+["Claymore","rare","attack","Visible to everyone. Triggers when someone comes within 5 m and deals 10 HP to all in range, you included."],
+["Huge machete","legendary","attack","Admins only. 10 HP per hit, 10 uses, 5 s cooldown."],
+["Assassin's knife","uncommon","skip","Stabs a nearby contestant for 5 HP, once."],
+["Eddie's potion","common","skip","10% chance to heal half your max HP, otherwise you lose 30%. Expected loss is about 22 HP at 100 max."]
+];
+document.getElementById("sig").innerHTML=S.map(s=>`<article class="card t${s[1]}"><div class="hd"><h3>${ic(s[0])}${s[0]}</h3><span class="tag">${tierName[s[1]]}</span></div><p class="st">${s[2]} HP, ${s[3]} slots</p><p><strong>Upside:</strong> ${s[4]}</p><p class="ct"><strong>Catch:</strong> ${s[5]}</p>${rl(s[0])}<button type="button" class="go" data-s="${s[0]}">See game plan</button></article>`).join("");
+const chips=document.getElementById("chips"),list=document.getElementById("itm");
+let cur="all";
+function draw(){
+ chips.innerHTML=[["all","All"],...Object.entries(R)].map(([k,v])=>`<button type="button" data-k="${k}" aria-pressed="${k===cur}">${v}</button>`).join("");
+ list.innerHTML=I.filter(i=>cur==="all"||i[2]===cur).map(i=>`<div class="item"><div><b>${ic(i[0])}${i[0]}</b><span class="rar">${i[1]}</span></div><span class="tx">${i[3]}</span></div>`).join("");
+}
+chips.addEventListener("click",e=>{const b=e.target.closest("button");if(b){cur=b.dataset.k;draw()}});
+draw();
+const PF=["Opening","Midgame","Endgame","When it goes right","When it goes wrong"];
+const P={
+Endurance:["Solo players who want to out-stock everyone else.","Grab every chest and crate, since you can't loot graves or trade. Fill slots with Hazmat suit, Body armor and Zombie repellent first, then add your panic buttons.","A care package falls within 10 m of you every 2 h and lands after 30 s, and everyone can see it. Be standing there to claim it first, and keep a Mirror forcefield or Invisibility ready for visitors.","Ten slots let you hold Safety bubble, Shield, Guardian angel and Repellent at once. Use Guardian angel for zone time, Shield for nukes and the bubble when you're stranded.","You stack more immunity windows than anyone else and simply outlast the field.","Healing is thin since you can't trade or loot graves, and a Greed player within 5 m can steal your best item."],
+Necromancy:["Players who want to stay near the action and turn other people's fights into healing.","Don't burn your 3 summons per 6 h early, because zombies only last 20 min. Collect chests, aim for Hazmat suit and Body armor, and stay close to other contestants.","Summon next to groups of enemies. Any death gives you a zombie, and deaths within 50 m add a guard zombie on the grave (2 HP per 5 s, up to 30 per person). A viewer horde gives you 5 more.","At 10 zombies new ones stop appearing, so summon only when below the cap. The shrinking zone pushes people into your zombies. Keep a Shield for nukes.","Each zombie can drain 15 HP from each person and the HP goes to you, which can out-heal the zone.","Zombies crawl at 0.4 m/s, so mobile players just walk away. Repellent holders and Safety bubbles ignore them, and you have no defense against darts, drones or C4."],
+Piety:["Players who want the highest HP and simple, dependable healing.","Claim every chest, since each one is a potion. Potions share a single slot (up to 6), so use the other two slots for Hazmat suit and Body armor from care packages, crates or trades.","Potions can't be used at full HP, so heal after taking damage. By my math Small, Medium, Large and Gigantic heal 5, 11, 23 and 46 HP with the 15% bonus.","Keep a Gigantic potion in reserve and pick up a Shield from a care package for nukes.","110 HP plus a steady potion supply outlasts most zone and chip damage.","Chests only ever give potions, so if chests dry up your kit is thin. Fake chests from Trolling players still trap you."],
+Greed:["Aggressive players who read inventories and take what they need.","Use the 2x chest reach to loot chests others skip. Each real chest has a 25% chance of a free 20 min Shield, so open as many as you can.","Inventories are public unless anonymous mode is on. Find someone holding a Safety bubble, Shield or Hazmat suit and steal their best item from within 5 m. The cooldown is 30 min, so don't waste it.","Steal a panic button before the late-game nukes. At 90 HP you can't afford a hit.","Shield procs plus stolen items give you better kit than anyone else.","You must get within 5 m to steal, which exposes you to darts, knives and claymores. Low HP makes every mistake costly."],
+Faith:["Two trusted players who stay together.","Both pick Faith, then send a bond request right away (it expires after 1 min). Stay within 10 m: damage is halved and then split between you.","Trade at any distance and divide the kit. Each partner's armor covers their own half of a hit. Small zone ticks have a 1 HP minimum before the split, so the bond helps most against big hits.","Sacrifice lets you give a partner all your HP when you're safe and they're outside the zone, at the cost of your elimination. Betrayal takes 30% of their current HP and breaks the bond. Agree in advance how the prize works.","You share a double HP pool at half damage, strongest against big hits like C4, missiles and nukes.","If one of you dies, both die. Either partner can betray the other at any time, and a broken bond can never be rebuilt."],
+Death:["Patient players who wait for others to fall and snowball.","Stay in the zone and collect kit. Save the Death Ward (blocks the first zone hit, then 2 min of immunity, 2 h cooldown) for a zone crossing.","Stay within 50 m of fights: each nearby death heals 1 HP per contestant eliminated so far. Rob graves within 5 m for 5% max HP, which also means that player can never be revived.","Once 20% or fewer remain, that heal stops at 60% max HP, so top up with potions and bandages for the final.","Healing grows as the field shrinks, and you deny revives.","A quiet game gives you no healing. Guard zombies on graves near Necromancers drain 2 HP per 5 s, so avoid those graves."],
+Protection:["Players who fear viewer attacks, traps and chaos.","You can ignore poison, drones, missiles, C4 and claymores, so walk through fake graves and viewer strikes. Use Hazmat suit and Body armor for what you aren't immune to: zone, zombies, tear gas, nukes and knives.","Potions heal you 50% less, so lean on Bandages (they last 1.1x longer) and Guardian angel. You may be immune to your own C4 and claymores too, which is worth confirming with admins.","Nukes are your gap since no sigil is immune, so keep a Shield or Safety bubble. If you die, everyone within 10 m takes 10 HP.","Missiles, drones and trolls can't touch you, leaving only the zone and the occasional nuke.","Healing is weak, and zombies, tear gas and knives still hurt."],
+Healing:["Team players who want allies and a safety net.","Find allies early. Offer heals (1 HP and a poison cure, every 30 min) and revives. Stay near someone, because your 2 revives need a contestant within 5 m of your grave inside 10 min.","A revive costs the reviver 5 HP and brings the person back with 5 HP and their grave items. You can revive anyone up to 10 times, and a bonded Faith partner returns with them.","Your allies will turn on you at the end, so plan the final. Avoid Death players, since robbing your grave makes you unrevivable.","Allies keep you in the game, and you can undo a bad loss.","Alone you're a 100 HP player with no strong tools, and below 30% HP you only regenerate 1 HP per 30 min."],
+Trolling:["Chaos and clips. This is the weakest sigil for actually winning.","Place fake chests (5 per day) and a fake gravestone (1 per day) along likely routes. Each fake chest claimed costs the victim 5 HP and heals you 5, and each looter of a fake grave is poisoned once.","The unsafe circle (50 m, 20 min, 2 h cooldown) hurts like the zone with no grace period and can't be placed on a person. Use it to push groups apart. Viewer crates have a 3% chance to land near you.","Late game there are fewer people to trap, so carry real survival tools. A Shield, Guardian angel or Safety bubble blocks your circle.","You farm HP and wear opponents down at no cost.","Mirror forcefield sends fake chests and graves back at you, and sigils show on the map unless anonymous mode is on, so smart players avoid your traps. You have no survival edge."]
+};
+const pc=document.getElementById("pchips"),pp=document.getElementById("pplan");
+let sp="Endurance";
+function drawP(){
+ pc.innerHTML=S.map(s=>`<button type="button" data-s="${s[0]}" aria-pressed="${s[0]===sp}">${s[0]}</button>`).join("");
+ const d=P[sp],t=S.find(s=>s[0]===sp);
+ pp.innerHTML=`<h3>${ic(sp)}${sp} <span class="tag">${tierName[t[1]]}, ${t[2]} HP, ${t[3]} slots</span></h3><p class="best">Best for: ${d[0]}</p>${rl(sp)}`+PF.map((f,i)=>`<div class="item${i==3?" ok":i==4?" bad":""}"><b>${f}</b><span class="tx">${d[i+1]}</span></div>`).join("");
+}
+pc.addEventListener("click",e=>{const b=e.target.closest("button");if(b){sp=b.dataset.s;drawP()}});
+document.getElementById("sig").addEventListener("click",e=>{const b=e.target.closest(".go");if(b){sp=b.dataset.s;drawP();document.getElementById("sigplans").scrollIntoView({behavior:"smooth"})}});
+drawP();
+const TN=[[1,"Solo"],[2,"2 players"],[3,"3 players"],[4,"4 players"],[5,"5 players"]];
+const T={
+1:[["Safe stocker",["Endurance"],"10 slots and a care package every 2 h let you carry a full defensive kit.","You can't trade, and a Greed player within 5 m can steal your best item."],
+["Lifesteal hunter",["Necromancy"],"Your zombies drain nearby players and heal you, and every death feeds you another zombie.","Zombies are slow, so mobile players just walk away from them."],
+["Potion tank",["Piety"],"110 HP and a potion from every chest keep you topped up.","Chests only give potions, so get armor from care packages and trades."],
+["Item thief", ["Greed"], "2x chest reach, a 25% chance of a free 20 min Shield per real chest, and one steal every 30 min from someone within 5 m.", "Only 90 HP, and you must get within 5 m to steal."],
+["Scavenger", ["Death"], "Rob graves for 5% max HP, heal from every death within 50 m, and use Death Ward to cross the zone.", "A quiet game gives you little healing."],
+["Untouchable", ["Protection"], "Immune to poison, drones, missiles, C4 and claymores, so most traps and strikes can't touch you.", "Potions heal you 50% less, and nukes, zombies and tear gas still hurt."]],
+2:[["Bonded pair",["Faith","Faith"],"Damage is halved within 10 m and split between you, and you trade at any distance.","If one dies, both die. Betrayal breaks the bond forever."],
+["Zombie duo",["Necromancy","Necromancy"],"Per the wiki, Necromancers are immune to all zombies, so neither swarm touches the other of you. Each death gives both of you a zombie.","Neither of you can revive, and nothing stops your ally from turning on you once the field thins."],
+["Mutual revive",["Healing","Piety"],"Healing can revive Piety, and anyone can revive Healing up to 2 times. Piety supplies the potions.","A revive needs a teammate within 5 m of the grave inside 10 min and costs 5 HP."],
+["Grifter and guard", ["Greed", "Protection"], "Protection walks through claymores, C4, drones and missiles unharmed while Greed steals from whoever is distracted.", "Greed has 90 HP, and Protection's death hits everyone within 10 m for 10 HP, your ally included."],
+["Drop and revive", ["Endurance", "Healing"], "Healing can claim your 2 h drops and revive you. You're the only sigil with a guaranteed supply.", "You can't trade, so Healing only gets what it claims. Revives need Healing within 5 m of your grave inside 10 min."],
+["Vulture pair", ["Death", "Death"], "Both of you heal from every death within 50 m, so one fight feeds two.", "Each grave can be robbed only once, and Necromancer guard zombies drain both of you."]],
+3:[["Revive core",["Healing","Piety","Greed"],"Greed loots and steals, Piety tanks and feeds potions, and Healing revives whoever falls.","Greed has only 90 HP. Stay close for revives, but spread out when a missile or nuke warning shows."],
+["Pair plus medic",["Faith","Faith","Healing"],"If the bonded pair dies together, one revive brings both back for 5 HP.","Healing must reach the graves inside 10 min, and they are the weak link."],
+["Zombie squad",["Necromancy","Necromancy","Necromancy"],"All three are immune to every zombie, so the swarm only hurts others.","One counter like a Safety bubble or Zombie repellent blunts the whole team."],
+["Supply line", ["Endurance", "Piety", "Healing"], "Your teammates claim the Endurance drops, Piety supplies potions, and Healing revives whoever falls.", "Endurance can't hand items over, and the drops are visible to everyone."],
+["Heist crew", ["Greed", "Greed", "Protection"], "Each Greed player steals once every 30 min from someone within 5 m, while Protection soaks drones, C4 and claymores.", "Stealing puts you in range of darts and knives, and Retribution hurts nearby allies."],
+["Chaos crew", ["Trolling", "Trolling", "Healing"], "Ten fake chests a day, two fake graves and two unsafe circles control a lot of ground, and Healing keeps you up.", "Allies can step on your traps too, and Mirror forcefields send them back."]],
+4:[["Balanced squad",["Endurance","Piety","Healing","Greed"],"The team claims Endurance's drops, Piety feeds potions, Healing revives, and Greed loots and steals.","Endurance can't receive items, so teammates must claim the drops themselves."],
+["Two bonded pairs",["Faith","Faith","Faith","Faith"],"Each pair shares damage and trades at any distance, giving you two tough duos.","Each pair dies together, and no one can bond outside their pair."],
+["Hit squad",["Protection","Greed","Death","Healing"],"Protection fronts the fights, immune to drones, C4, missiles and claymores. Greed steals, Death heals from kills, Healing revives.","Protection's death hits everyone within 10 m for 10 HP. Death must never rob a teammate's grave."],
+["Zombie pack", ["Necromancy", "Necromancy", "Necromancy", "Necromancy"], "Up to 10 zombies each, and none can hurt you. Every death gives each of you a zombie.", "Everything rides on one mechanic, and Zombie repellent or Safety bubbles blunt it."],
+["Pair and crew", ["Faith", "Faith", "Greed", "Healing"], "The bonded pair is tough against big hits, Greed steals, and one Healing revive brings back both Faith partners.", "Healing and Greed are exposed at 100 and 90 HP, and the pair dies together."],
+["Double supply", ["Endurance", "Endurance", "Piety", "Healing"], "Two drops land every 2 h and your team claims both, with Piety on potions and Healing on revives.", "Neither Endurance player can trade, and two visible drops attract crowds."]],
+5:[["Everything covered",["Endurance","Piety","Healing","Greed","Protection"],"Supply post, potion tank, revive engine, thief and frontliner.","Spread out for blasts, and keep teammates 10 m or more from Protection if it's about to die."],
+["Pairs plus medic",["Faith","Faith","Faith","Faith","Healing"],"Two bonded duos with a revive available for either pair.","Everything rides on one Healing player, so protect them."],
+["Zombie swarm",["Necromancy","Necromancy","Necromancy","Necromancy","Necromancy"],"Up to 10 zombies each, and none can hurt your own team.","Zombie repellent or immunity items blunt your whole offense."],
+["Drop line", ["Endurance", "Endurance", "Endurance", "Healing", "Healing"], "Three drops every 2 h, and the two Healing players can revive each other and anyone else.", "Three visible drops draw a crowd, and the Endurance players can't trade."],
+["Raid party", ["Greed", "Greed", "Death", "Protection", "Healing"], "Two thieves, a Protection frontliner, a Death player healing off kills and a Healing player reviving.", "Thin on armor, it relies on fights happening, and Retribution hurts nearby allies."],
+["Trap net", ["Trolling", "Trolling", "Piety", "Piety", "Healing"], "Two Trolling players seed fake chests and circles while two Piety players keep everyone topped up and Healing revives.", "Fake chests look real to your own allies too, so mark where you put them."]]
+};
+const TR={
+Endurance:"Supply post. It can't trade, but anyone can claim its 2 h care packages, so teammates can stand nearby and take the loot.",
+Necromancy:"Lifesteal engine. Its zombies drain teammates too unless they are Necromancers, hold Zombie repellent, or are shielded.",
+Piety:"Medic's pantry with 110 HP. Chests become potions you can trade to teammates, though the 15% bonus is yours alone.",
+Greed:"Looter and thief. 2x chest reach, plus one steal per 30 min from enemies. Trade the haul to the team.",
+Faith:"Bonded pair. Two partners share damage and trade at any distance, and they live or die together.",
+Death:"Cleanup. Heals when anyone dies within 50 m, and robbing enemy graves stops revives.",
+Protection:"Frontliner. Immune to poison, drones, missiles, C4 and claymores, but its death hurts teammates within 10 m.",
+Healing:"Revive engine. Revives anyone up to 10 times and can be revived twice. One or two per team is plenty.",
+Trolling:"Area denial. Fake chests and the unsafe circle guard your position, but teammates inside the circle take damage too."
+};
+let ts=2;
+const tc=document.getElementById("tchips"),tp=document.getElementById("tplan");
+function drawT(){
+ tc.innerHTML=TN.map(([n,l])=>`<button type="button" data-n="${n}" aria-pressed="${n===ts}">${l}</button>`).join("");
+ tp.innerHTML=`<div class="grid">`+T[ts].map((l,i)=>{const c={};l[1].forEach(s=>c[s]=(c[s]||0)+1);
+  const tags=Object.entries(c).map(([s,n])=>`<button type="button" class="sg" data-s="${s}">${s}${n>1?" x"+n:""}</button>`).join("");
+  return `<article class="card t${i?2:1}"><div class="hd"><h3>${l[0]}</h3><span class="tag">${i?"Alternative":"Recommended"}</span></div><p class="st">${ts===1?"Solo":ts+" players"}</p><div>${tags}</div><p><strong>Why it works:</strong> ${l[2]}</p><p class="ct"><strong>Watch out:</strong> ${l[3]}</p></article>`}).join("")+`</div>`;
+}
+tc.addEventListener("click",e=>{const b=e.target.closest("button");if(b){ts=+b.dataset.n;drawT()}});
+tp.addEventListener("click",e=>{const b=e.target.closest(".sg");if(b){sp=b.dataset.s;drawP();document.getElementById("sigplans").scrollIntoView({behavior:"smooth"})}});
+document.getElementById("troles").innerHTML=Object.entries(TR).map(([k,v])=>`<div class="item"><div><b>${k}</b></div><span class="tx">${v}</span></div>`).join("");
+drawT();
+const SG=["stellooo","chickenandy","ozemi","iceposeidon","nicklee","tazo","drago","amray","binxbasilisk","the757cj","dtanmanb","ryanheinz","m1kedanger","soultravels","zuesirl","toneirl","mydogjason","kaneljoseph","tiedyez","greatwhitemike","mando","bigsiix","thiirty","cobbruvs","jandro","atxhooddriver_512","glink","kimmee","alexis","floridaboy"];
+const SS={};let lastChk=null;
+const sl=document.getElementById("slist"),sst=document.getElementById("sstatus"),sm=document.getElementById("streamers");
+function drawS(){
+ const ord=[...SG].sort((a,b)=>(SS[b]===true)-(SS[a]===true)||a.localeCompare(b));
+ const known=SG.filter(n=>SS[n]===true||SS[n]===false).length,live=SG.filter(n=>SS[n]===true).length;
+ const tm=lastChk?lastChk.toLocaleTimeString([],{hour:"numeric",minute:"2-digit"}):"";
+ sst.textContent=busy||!lastChk?"Checking who's live...":known?`${live} live of ${SG.length}. Checked ${tm}, and the list refreshes every 5 minutes.`:`Couldn't reach Kick from this page at ${tm}, so live status is unavailable and everyone is listed alphabetically. Watch and Pop out still work.`;
+ sl.innerHTML=ord.map(n=>{const v=SS[n],h=[...n].reduce((a,c)=>(a*31+c.charCodeAt(0))%360,7);return `<div class="srow${v===true?" live":""}"><div class="sn"><span class="av" style="--h:${h}">${n[0].toUpperCase()}<img src="https://unavatar.io/kick/${n}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"></span><div><a href="https://kick.com/${n}" target="_blank" rel="noopener"><b>${n}</b></a><span class="tag"><span class="dot"></span>${v===true?"Live":v===false?"Offline":"Status unknown"}</span></div></div><div><button type="button" class="sbtn w" data-w="${n}">Watch</button> <a class="sbtn" href="https://player.kick.cx/${n}?opentokick=false" target="_blank" rel="noopener" data-p="${n}">Pop out</a></div></div>`}).join("");
+}
+let busy=false;
+async function chk(n){const c=new AbortController(),t=setTimeout(()=>c.abort(),8000);try{const r=await fetch("https://kick.com/api/v2/channels/"+n,{headers:{accept:"application/json"},signal:c.signal});if(!r.ok)return null;const j=await r.json();return !!j.livestream}catch(e){return null}finally{clearTimeout(t)}}
+async function refreshS(){if(busy)return;busy=true;const b=document.getElementById("srf");b.disabled=true;b.textContent="Refreshing...";drawS();
+ try{const r=await Promise.all(SG.map(chk));SG.forEach((n,i)=>{SS[n]=r[i]!==null?r[i]:(SS[n]??null)});lastChk=new Date()}finally{busy=false;b.disabled=false;b.textContent="Refresh now";drawS()}}
+const dlg=document.getElementById("dlg"),dbody=document.getElementById("db");
+function openW(n){
+ const v=SS[n];
+ document.getElementById("dn").textContent=n;
+ document.getElementById("ds").textContent=v===true?"Live":v===false?"Offline":"";
+ document.getElementById("dk").href=`https://kick.com/${n}`;
+ dbody.innerHTML=`<div class="pl"><iframe src="https://player.kick.cx/${n}?opentokick=false" width="100%" height="500px" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="${n} stream"></iframe></div><div class="ch"><iframe src="https://chat.kick.cx/embed/${n}?readonly=true" width="100%" height="600px" title="${n} chat"></iframe></div>`;
+ dlg.showModal();
+}
+dlg.addEventListener("close",()=>{dbody.innerHTML=""});
+dlg.addEventListener("click",e=>{if(e.target===dlg)dlg.close()});
+document.getElementById("dx").addEventListener("click",()=>dlg.close());
+sm.addEventListener("click",e=>{
+ const p=e.target.closest("[data-p]");
+ if(p){const w=window.open(p.href,"kick_"+p.dataset.p,"popup,width=1100,height=620");if(w)e.preventDefault();return}
+ const b=e.target.closest("button");if(!b)return;
+ if(b.dataset.w)openW(b.dataset.w);else if(b.id==="srf")refreshS()});
+function showView(s){document.getElementById("top").hidden=s;sm.hidden=!s}
+document.querySelector(".nav").addEventListener("click",e=>{const a=e.target.closest("a");if(!a)return;const s=a.getAttribute("href")==="#streamers";showView(s);if(s){e.preventDefault();scrollTo(0,0)}});
+if(location.hash==="#streamers")showView(true);
+drawS();refreshS();setInterval(refreshS,300000);
+</script>
+</body>
+</html>
